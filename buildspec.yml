@@ -5,9 +5,14 @@ phases:
     runtime-versions:
       nodejs: 16
     commands:
-      - echo "Current working directory: $(pwd)"
-      - ls -al  # List directory contents
-      - cd /codebuild/output/src62423724/src  # Change to the correct working directory
-      - echo "Changed working directory to: $(pwd)"
-      - ls -al  # List directory contents again
+      - echo "Installing dependencies..."
       - npm install
+
+  build:
+    commands:
+      - echo "Building the project..."
+      - npm run build
+
+artifacts:
+  files:
+    - '**/*'
