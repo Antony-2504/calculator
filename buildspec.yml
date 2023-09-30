@@ -1,19 +1,22 @@
 version: 0.2
 
 phases:
-  pre_build:
+  install:
+    runtime-versions:
+      nodejs: 14  # Adjust Node.js version as needed
     commands:
-      - echo "Clearing npm cache..."
-      - npm cache clean --force
-      - echo "Updating npm registry..."
-      - npm config set registry https://registry.npmjs.org/
       - echo "Installing dependencies..."
+      - npm install
+
   build:
     commands:
-      - npm install
       - echo "Building the project..."
       - npm run build
 
 artifacts:
   files:
     - '**/*'
+
+cache:
+  paths:
+    - node_modules/  # Cache node_modules to speed up future builds
