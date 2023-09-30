@@ -1,13 +1,15 @@
-# [Simple Javascript Calculator](https://harsh98trivedi.github.io/Simple-JavaScript-Calculator) 
-
-A simple JavaScript Calculator made by [Harsh Trivedi](https://harsh98trivedi.github.io)
-
-<h1>Contributors</h1>
- Contributors are always welcome to make contribution in this project and work on the available Issues...
- <br>
- 
- <h3>Happy Coding...</h3>
-
-![Simple Javascript Calculator](https://raw.githubusercontent.com/harsh98trivedi/Simple-JavaScript-Calculator/master/meta.jpg)
+# Ram Hemareddy AWS CICD Pipeline Code Deployment to AWS EC2 Instance
 
 
+<b>User Data for Dependencies installations for AMAZON Linux 2:-</b>
+
+#!/bin/bash<br />
+sudo yum -y update<br />
+sudo yum -y install ruby<br />
+sudo yum -y install wget<br />
+cd /home/ec2-user<br />
+wget https://aws-codedeploy-ap-south-1.s3.ap-south-1.amazonaws.com/latest/install<br />
+sudo chmod +x ./install<br />
+sudo ./install auto<br />
+sudo yum install -y python-pip<br />
+sudo pip install awscli<br />
