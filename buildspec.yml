@@ -1,15 +1,16 @@
 version: 0.2
 
 phases:
-  install:
-    runtime-versions:
-      nodejs: 16  # Update to Node.js 16, which is available in the image.
+  pre_build:
     commands:
+      - echo "Clearing npm cache..."
+      - npm cache clean --force
+      - echo "Updating npm registry..."
+      - npm config set registry https://registry.npmjs.org/
       - echo "Installing dependencies..."
-      - npm install
-
   build:
     commands:
+      - npm install
       - echo "Building the project..."
       - npm run build
 
