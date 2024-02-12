@@ -5,9 +5,10 @@ steps:
   - '-c'
   - |
     # Inject SSH key content from Secret Manager as environment variable
-    KEY_CONTENT=$(SECRET_MANAGER_LOCATION=/projects/177551695492/secrets/gcpkey)
+    KEY_CONTENT=$(gcloud secrets versions access latest --secret=gcpkey)
     # Use temporary filename for injected key content
-    KEY_FILE=/builder/home/.ssh/key_${RANDOM}
+    RANDOM_NUMBER=$((1 + RANDOM % 1000))
+    KEY_FILE=/builder/home/.ssh/key_${RANDOM_NUMBER}
     echo "$KEY_CONTENT" > "$KEY_FILE"
     chmod 600 "$KEY_FILE"
 
