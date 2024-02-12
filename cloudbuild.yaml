@@ -4,16 +4,18 @@ steps:
   args:
   - '-c'
   - |
-    # Inject SSH key content from Secret Manager as environment variable
-    KEY_CONTENT=$(gcloud secrets versions access latest --secret=gcpkey)
-    # Use temporary filename for injected key content
-    RANDOM_NUMBER=$((1 + RANDOM % 1000))
-    KEY_FILE=/builder/home/.ssh/key_$RANDOM_NUMBER
+    # Retrieve SSH key content from Secret Manager
+    KEY_CONTENT=$(SECRET_MANAGER_LOCATION=/projects/177551695492/secrets/gcpkey)
+
+    # Create a fixed filename for the temporary SSH key (modify if needed)
+    KEY_FILE=/builder/home/.ssh/key_gcpkey
+
+    # Write the key content to the temporary file with secure permissions
     echo "$KEY_CONTENT" > "$KEY_FILE"
     chmod 600 "$KEY_FILE"
 
-    # Connect to instance using injected key
+    # Connect to the instance using the injected key
     gcloud compute ssh instance-2 --zone=us-central1-a --command="echo 'Hello from Cloud Build!'" -i "$KEY_FILE"
 
-    # Clean up temporary file
-    rm -f "$KEY_FILE"
+    # Clean up the temporary file (optional)
+    # rm -f "$KEY_FILE"
