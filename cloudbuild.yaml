@@ -4,4 +4,4 @@ steps:
     args:
       - '-c'
       - |
-        gcloud compute ssh instance-2 --zone=us-central1-a -i ~/.ssh/id_rsa --command="echo 'Hello from Cloud Build!'"
+        gcloud compute ssh instance-2 --zone=us-central1-a --command="echo 'Hello from Cloud Build!'" -- -i ~/.ssh/id_rsa
