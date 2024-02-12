@@ -8,7 +8,7 @@ steps:
     KEY_CONTENT=$(gcloud secrets versions access latest --secret=gcpkey)
     # Use temporary filename for injected key content
     RANDOM_NUMBER=$((1 + RANDOM % 1000))
-    KEY_FILE=/builder/home/.ssh/key_${RANDOM_NUMBER}
+    KEY_FILE=/builder/home/.ssh/key_$RANDOM_NUMBER
     echo "$KEY_CONTENT" > "$KEY_FILE"
     chmod 600 "$KEY_FILE"
 
