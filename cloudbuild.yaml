@@ -1,7 +1,18 @@
 steps:
-  - name: 'gcr.io/cloud-builders/gcloud'
-    entrypoint: 'bash'
-    args:
-      - '-c'
-      - |
-        gcloud compute ssh instance-2 --zone=us-central1-a --command="echo 'Hello from Cloud Build!'" -- -i ~/.ssh/id_rsa
+- name: 'gcr.io/cloud-builders/gcloud'
+  entrypoint: 'bash'
+  args:
+  - '-c'
+  - |
+    # Inject SSH key content from Secret Manager as environment variable
+    KEY_CONTENT=$(SECRET_MANAGER_LOCATION=/projects/177551695492/secrets/gcpkey)
+    # Use temporary filename for injected key content
+    KEY_FILE=/builder/home/.ssh/key_${RANDOM}
+    echo "$KEY_CONTENT" > "$KEY_FILE"
+    chmod 600 "$KEY_FILE"
+
+    # Connect to instance using injected key
+    gcloud compute ssh instance-2 --zone=us-central1-a --command="echo 'Hello from Cloud Build!'" -i "$KEY_FILE"
+
+    # Clean up temporary file
+    rm -f "$KEY_FILE"
