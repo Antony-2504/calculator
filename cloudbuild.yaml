@@ -1,21 +1,11 @@
-steps:
-- name: 'gcr.io/cloud-builders/gcloud'
-  entrypoint: 'bash'
+- name: gcr.io/cloud-builders/gcloud
+  entrypoint: bash
   args:
-  - '-c'
-  - |
-    # Retrieve SSH key content from Secret Manager
-    KEY_CONTENT=$(gcloud secrets versions access latest --secret=gcpkey)
-
-    # Create a fixed filename for the temporary SSH key (modify if needed)
-    KEY_FILE=/builder/home/.ssh/key_gcpkey
-
-    # Write the key content to the temporary file with secure permissions
-    echo "$KEY_CONTENT" > "$KEY_FILE"
-    chmod 600 "$KEY_FILE"
-
-    # Connect to instance using injected key
-    gcloud compute ssh instance-2 --zone=us-central1-a --command="echo 'Hello from Cloud Build!'" -i "$KEY_FILE"
-
-    # Clean up temporary file
-    rm -f "$KEY_FILE"
+    - '-c'
+    - >
+      vmlist=$(gcloud compute instances list --format='value(name)' --filter="labels.name:test AND status:RUNNING") &&
+      for vm in $vmlist; do
+        gcloud compute ssh cloudbuild@$vm \
+          --zone $(gcloud compute instances list --format='value(zone)' --filter="name='$vm'") \
+          --quiet --command 'gsutil cp gs://alb234/startup.sh . && sudo chmod +x startup.sh && sudo sh startup.sh'
+      done
