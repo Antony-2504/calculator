@@ -1,8 +1,8 @@
 steps:
   # SSH into the instance
   - name: 'gcr.io/cloud-builders/gcloud'
-    args: ['compute', 'ssh', 'antonyavanexa@instance-2', '--zone=us-central1-a', '--command', 'sudo mkdir /var/test']
+    args: ['compute', 'ssh', 'antonyavanexa@instance-3', '--zone=us-central1-a', '--command', 'sudo mkdir /var/test']
 
   # Confirm directory creation
   - name: 'gcr.io/cloud-builders/gcloud'
-    args: ['compute', 'ssh', 'antonyavanexa@instance-2', '--zone=us-central1-a', '--command', 'ls -l /var']
+    args: ['compute', 'ssh', 'antonyavanexa@instance-3', '--zone=us-central1-a', '--command', 'ls -l /var']
