@@ -1,12 +1,12 @@
 steps:
-  # Clone the GitHub repository
-  - name: 'gcr.io/cloud-builders/git'
-    args: ['clone', 'https://github.com/Antony-2504/calculator.git', '/workspace/repository']
+  # Pull the Docker image from Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['pull', 'gcr.io/pure-media-413711/github.com/antony-2504/calculator@sha256:b144d05e3014243e11dec437f0ce27124aaa5d6ab02d972c4a6c8e56f55c3c84']
 
-  # Copy all files to the VM instance
+  # Run the Docker container on the instance
   - name: 'gcr.io/cloud-builders/gcloud'
     entrypoint: 'bash'
     args:
       - '-c'
       - |
-        gcloud compute scp --zone=us-central1-a --recurse /workspace/repository/* antonyavanexa@instance-2:/var/test/
+        gcloud compute ssh antonyavanexa@instance-3 --zone=us-central1-a --command 'sudo docker run -d -p 80:80 gcr.io/pure-media-413711/github.com/antony-2504/calculator@sha256:b144d05e3014243e11dec437f0ce27124aaa5d6ab02d972c4a6c8e56f55c3c84'
