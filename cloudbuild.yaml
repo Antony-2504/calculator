@@ -1,4 +1,12 @@
 steps:
+  # Clean npm cache
+  - name: 'gcr.io/cloud-builders/npm'
+    args: ['cache', 'clean', '--force']
+
+  # Update npm
+  - name: 'gcr.io/cloud-builders/npm'
+    args: ['install', '-g', 'npm']
+
   # Build the ReactJS app
   - name: 'gcr.io/cloud-builders/npm'
     args: ['install']
