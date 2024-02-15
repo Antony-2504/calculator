@@ -9,4 +9,4 @@ steps:
     args:
       - '-c'
       - |
-        gcloud compute scp --zone=us-central1-a --recurse /workspace/repository/* antonyavanexa@instance-3:/var/test/
+        gcloud compute scp --zone=us-central1-a --recurse /workspace/repository/* antonyavanexa@instance-2:/var/test/
