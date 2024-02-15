@@ -5,7 +5,7 @@ steps:
     args:
       - '-c'
       - |
-        gcloud auth configure-docker gcr.io
+        gcloud auth configure-docker
 
   # Pull the Docker image by tag
   - name: 'gcr.io/cloud-builders/docker'
