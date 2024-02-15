@@ -1,20 +1,15 @@
 steps:
-  # Install nvm and Node.js
+  # Set ReactJS version
   - name: 'gcr.io/cloud-builders/npm'
     entrypoint: 'bash'
     args:
       - '-c'
       - |
-        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
-        export NVM_DIR="/root/.nvm"
-        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-        [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-        nvm install 18.17.0
-        nvm use 18.17.0
+        export REACT_VERSION=14
 
   # Build the ReactJS app
   - name: 'gcr.io/cloud-builders/npm'
-    args: ['install']
+    args: ['install', 'react@$REACT_VERSION']
     dir: '/'  # Set the working directory to the root of your project
   - name: 'gcr.io/cloud-builders/npm'
     args: ['run', 'build']
