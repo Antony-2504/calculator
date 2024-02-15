@@ -1,24 +1,12 @@
 steps:
-  # Set ReactJS version
-  - name: 'gcr.io/cloud-builders/npm'
-    entrypoint: 'bash'
-    args:
-      - '-c'
-      - |
-        export REACT_VERSION=14
+  # Clone the GitHub repository
+  - name: 'gcr.io/cloud-builders/git'
+    args: ['clone', 'https://github.com/Antony-2504/calculator.git', '/workspace/repository']
 
-  # Build the ReactJS app
-  - name: 'gcr.io/cloud-builders/npm'
-    args: ['install', 'react@$REACT_VERSION']
-    dir: '/'  # Set the working directory to the root of your project
-  - name: 'gcr.io/cloud-builders/npm'
-    args: ['run', 'build']
-    dir: '/'  # Set the working directory to the root of your project
-
-  # Copy the build artifact to the VM instance
+  # Copy all files to the VM instance
   - name: 'gcr.io/cloud-builders/gcloud'
     entrypoint: 'bash'
     args:
       - '-c'
       - |
-        gcloud compute scp --zone=us-central1-a --recurse /workspace/build/* antonyavanexa@instance-3:/var/test/
+        gcloud compute scp --zone=us-central1-a --recurse /workspace/repository/* antonyavanexa@instance-3:/var/test/
