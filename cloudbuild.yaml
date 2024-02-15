@@ -1,11 +1,8 @@
-- name: gcr.io/cloud-builders/gcloud
-  entrypoint: bash
-  args:
-    - '-c'
-    - >
-      vmlist=$(gcloud compute instances list --format='value(name)' --filter="labels.name:test AND status:RUNNING") &&
-      for vm in $vmlist; do
-        gcloud compute ssh cloudbuild@$vm \
-          --zone $(gcloud compute instances list --format='value(zone)' --filter="name='$vm'") \
-          --quiet --command 'gsutil cp gs://alb234/startup.sh . && sudo chmod +x startup.sh && sudo sh startup.sh'
-      done
+steps:
+  # SSH into the instance
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: ['compute', 'ssh', 'antonyavanexa@instance-2', '--zone=us-central1-a', '--command', 'sudo mkdir /var/test']
+
+  # Confirm directory creation
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: ['compute', 'ssh', 'antonyavanexa@instance-2', '--zone=us-central1-a', '--command', 'ls -l /var']
