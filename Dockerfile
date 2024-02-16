@@ -4,18 +4,10 @@ FROM almalinux
 # Set the working directory in the container
 WORKDIR /usr/src/app/
 
-# Install the gcloud command-line tool
-RUN curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-390.0.0-linux-x86_64.tar.gz \
-    && tar zxvf google-cloud-sdk-390.0.0-linux-x86_64.tar.gz \
-    && ./google-cloud-sdk/install.sh
+# Copy the requirements.txt file into the container
 
-# Fetch the secret from Secret Manager and save it as key.json
-RUN /google-cloud-sdk/bin/gcloud secrets versions access latest --secret=credentials-json > /usr/src/app/key.json
+#COPY main.py main.py
 
-# Set the GOOGLE_APPLICATION_CREDENTIALS environment variable
-ENV GOOGLE_APPLICATION_CREDENTIALS="/usr/src/app/key.json"
-
-# Continue with your Dockerfile setup
 RUN echo -e "[gcsfuse]\nname=gcsfuse (packages.cloud.google.com)\nbaseurl=https://packages.cloud.google.com/yum/repos/gcsfuse-el7-x86_64\nenabled=1\ngpgcheck=1\nrepo_gpgcheck=0\ngpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg\n      https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg" | tee /etc/yum.repos.d/gcsfuse.repo > /dev/null && \
     yum update -y && \
     yum install -y gcc sudo gnupg2 epel-release && \
@@ -25,7 +17,18 @@ RUN echo -e "[gcsfuse]\nname=gcsfuse (packages.cloud.google.com)\nbaseurl=https:
     yum install python-pip python3-pip -y && \
     yum install -y fuse && \
     yum install gcsfuse -y
-RUN pip3 install streamlit langchain torch networkx pandas
+RUN pip3 install streamlit langchain torch networkx pandas 
+
+
+
+# Install gcsfuse
+
+# Copy the GCP service account key into the Docker image
+#COPY "key2.json" "service-account-key.json"
+
+# Set the GOOGLE_APPLICATION_CREDENTIALS environment variable
+ENV GOOGLE_APPLICATION_CREDENTIALS="/usr/src/app/key.json"
+RUN mkdir test
 
 # Index of /apt//
 # Install any needed packages specified in requirements.txt
@@ -34,3 +37,4 @@ RUN pip3 install streamlit langchain torch networkx pandas
 ##COPY . .
 # Run script.py when the container launches
 ##CMD ["python", "./embed_script.py"]
+
