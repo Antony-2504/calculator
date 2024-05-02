@@ -6,7 +6,7 @@ phases:
       nodejs: 14
     commands:
       - echo "Installing dependencies..."
-      #- npm install -g npm@latest
+      - npm install -g npm@latest
   pre_build:
     commands:
       - echo "Linting code..."
@@ -14,7 +14,7 @@ phases:
   build:
     commands:
       - echo "Building the React app..."
-      #- npm run build
+      - npm run build
   post_build:
     commands:
       - echo "Copying build artifacts to S3 bucket..."
