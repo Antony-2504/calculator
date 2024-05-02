@@ -19,3 +19,6 @@ phases:
     commands:
       - echo "Copying build artifacts to S3 bucket..."
       #- aws s3 sync s3://task-02-02-05
+artifacts:
+  files:
+    - '**/*'
