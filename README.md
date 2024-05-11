@@ -1,4 +1,4 @@
-Ram Hemareddy AWS CICD Pipeline Code Deployment to AWS EC2 Instance
+AWS CICD Pipeline Code Deployment to AWS EC2 Instance
 
 
 <b>User Data for Dependencies installations for AMAZON Linux 2:-</b>
